@@ -51,6 +51,7 @@ async function initDatabase() {
 }
 
 // Enhanced Homepage Route
+res.type('html');
 app.get('/', (req, res) => {
   res.send(`
     
@@ -336,6 +337,7 @@ app.get('/', (req, res) => {
 });
 
 // Health Check Route
+res.type('html');
 app.get('/health', (req, res) => {
   res.json({ 
     status: 'healthy', 
@@ -347,6 +349,7 @@ app.get('/health', (req, res) => {
 });
 
 // Enhanced Demo Page
+res.type('html');
 app.get('/demo', (req, res) => {
   res.send(`
     
@@ -566,6 +569,7 @@ app.get('/demo', (req, res) => {
 });
 
 // Enhanced Registration Page
+res.type('html');
 app.get('/register', (req, res) => {
   res.send(`
     
@@ -971,6 +975,7 @@ app.post('/api/chat', async (req, res) => {
 });
 
 // User statistics endpoint
+res.type('html');
 app.get('/api/stats', async (req, res) => {
   try {
     const userCount = await pool.query('SELECT COUNT(*) FROM users');
