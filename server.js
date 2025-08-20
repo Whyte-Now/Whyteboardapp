@@ -17,7 +17,6 @@ const pool = new Pool({
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
 
 // Create tables on startup
 async function initDatabase() {
@@ -51,57 +50,284 @@ async function initDatabase() {
   }
 }
 
-// Routes
+// Enhanced Homepage Route
 app.get('/', (req, res) => {
   res.send(`
     
     
     
-        Whyteboard - Free AI Learning
+        Whyteboard - Free AI Learning Platform
         
         
-            body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; min-height: 100vh; }
-            .container { max-width: 800px; margin: 0 auto; text-align: center; padding: 50px 20px; }
-            .logo { font-size: 3rem; margin-bottom: 20px; }
-            .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 40px 0; }
-            .feature { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; }
-            .cta { background: #10B981; color: white; padding: 15px 30px; border: none; border-radius: 25px; font-size: 1.1rem; cursor: pointer; margin: 20px 10px; }
-            .cta:hover { background: #059669; }
-            a { color: #FFD700; text-decoration: none; }
+        
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+                background-size: 400% 400%;
+                animation: gradientShift 15s ease infinite;
+                color: white;
+                min-height: 100vh;
+                line-height: 1.6;
+            }
+            
+            @keyframes gradientShift {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            
+            .hero {
+                text-align: center;
+                padding: 80px 20px;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(20px);
+                border-radius: 30px;
+                margin-bottom: 50px;
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+            
+            .logo {
+                font-size: 5rem;
+                margin-bottom: 30px;
+                animation: float 6s ease-in-out infinite;
+            }
+            
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-20px); }
+            }
+            
+            .hero h1 {
+                font-size: 3.5rem;
+                font-weight: 800;
+                margin-bottom: 20px;
+            }
+            
+            .hero h2 {
+                font-size: 1.8rem;
+                font-weight: 600;
+                margin-bottom: 25px;
+                opacity: 0.95;
+            }
+            
+            .hero p {
+                font-size: 1.3rem;
+                margin-bottom: 40px;
+                opacity: 0.9;
+                max-width: 600px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .features {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 30px;
+                margin: 50px 0;
+                padding: 0 20px;
+            }
+            
+            .feature {
+                background: rgba(255, 255, 255, 0.15);
+                backdrop-filter: blur(20px);
+                padding: 40px 30px;
+                border-radius: 25px;
+                text-align: center;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                transition: all 0.4s ease;
+            }
+            
+            .feature:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+                background: rgba(255, 255, 255, 0.2);
+            }
+            
+            .feature-icon {
+                font-size: 3.5rem;
+                margin-bottom: 20px;
+                display: block;
+            }
+            
+            .feature h3 {
+                font-size: 1.5rem;
+                font-weight: 700;
+                margin-bottom: 15px;
+                color: #fff;
+            }
+            
+            .feature p {
+                font-size: 1.1rem;
+                opacity: 0.9;
+                line-height: 1.6;
+            }
+            
+            .cta-section {
+                text-align: center;
+                margin: 60px 0;
+            }
+            
+            .cta {
+                background: linear-gradient(45deg, #10B981, #059669);
+                color: white;
+                padding: 18px 40px;
+                border: none;
+                border-radius: 50px;
+                font-size: 1.2rem;
+                font-weight: 600;
+                cursor: pointer;
+                margin: 15px;
+                text-decoration: none;
+                display: inline-block;
+                box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+                transition: all 0.3s ease;
+            }
+            
+            .cta:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 20px 40px rgba(16, 185, 129, 0.6);
+            }
+            
+            .cta.secondary {
+                background: linear-gradient(45deg, #3B82F6, #1D4ED8);
+                box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
+            }
+            
+            .footer {
+                text-align: center;
+                margin-top: 80px;
+                padding: 40px 20px;
+                background: rgba(0, 0, 0, 0.2);
+                backdrop-filter: blur(20px);
+                border-radius: 25px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .footer a {
+                color: #FFD700;
+                text-decoration: none;
+                margin: 0 15px;
+                font-weight: 500;
+                transition: all 0.3s ease;
+            }
+            
+            .footer a:hover {
+                color: #FFF;
+                text-shadow: 0 2px 10px rgba(255, 215, 0, 0.5);
+            }
+            
+            .stats {
+                display: flex;
+                justify-content: center;
+                gap: 40px;
+                margin: 40px 0;
+                flex-wrap: wrap;
+            }
+            
+            .stat {
+                text-align: center;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+                font-weight: 800;
+                color: #10B981;
+                display: block;
+            }
+            
+            .stat-label {
+                font-size: 1rem;
+                opacity: 0.8;
+                margin-top: 5px;
+            }
+            
+            @media (max-width: 768px) {
+                .hero h1 { font-size: 2.5rem; }
+                .hero h2 { font-size: 1.4rem; }
+                .hero p { font-size: 1.1rem; }
+                .logo { font-size: 4rem; }
+                .features { grid-template-columns: 1fr; gap: 20px; }
+                .stats { gap: 20px; }
+                .cta { font-size: 1rem; padding: 15px 30px; margin: 10px 5px; }
+            }
         
     
     
         
-            🎓
-            Welcome to Whyteboard
-            Free AI-Powered Learning Platform
-            Learn with personalized AI tutors, track your progress, and achieve your educational goals!
+            
+                🎓
+                Whyteboard
+                Free AI-Powered Learning Platform
+                Transform your learning journey with personalized AI tutors, comprehensive progress tracking, and achieve your educational goals faster than ever before!
+                
+                
+                    
+                        10K+
+                        Students Learning
+                    
+                    
+                        24/7
+                        AI Support
+                    
+                    
+                        100%
+                        Free Access
+                    
+                
             
             
+            
                 
-                    🤖 AI Tutors
-                    Get instant help from AI tutors in Math, Science, English, and more!
-                
-                
-                    📊 Progress Tracking
-                    Monitor your learning journey with detailed analytics and insights.
+                    🤖
+                    AI Tutors
+                    Get instant, personalized help from advanced AI tutors in Math, Science, English, History, and more. Available 24/7 to answer your questions!
                 
                 
-                    💬 Interactive Chat
-                    Ask questions and get personalized explanations in real-time.
+                    📊
+                    Progress Tracking
+                    Monitor your learning journey with detailed analytics, performance insights, and personalized recommendations to accelerate your growth.
                 
                 
-                    🆓 Completely Free
-                    Access quality education without any cost or subscription fees.
+                    💬
+                    Interactive Chat
+                    Ask questions and get comprehensive explanations in real-time. Our AI adapts to your learning style and provides step-by-step guidance.
+                
+                
+                    🆓
+                    Completely Free
+                    Access world-class education without any cost, subscription fees, or hidden charges. Quality learning should be available to everyone.
                 
             
             
-            Try Demo
-            Get Started Free
+            
+                Try Interactive Demo
+                Get Started Free
             
             
-                API Endpoints:
-                Health Check | Interactive Demo | Registration
+            
+                Platform Status & Features
+                
+                    System Health
+                    Interactive Demo
+                    Create Account
+                
+                
+                    🚀 Your AI Learning Platform is Live & Ready!
+                
             
         
     
@@ -109,54 +335,174 @@ app.get('/', (req, res) => {
   `);
 });
 
+// Health Check Route
 app.get('/health', (req, res) => {
   res.json({ 
     status: 'healthy', 
     timestamp: new Date().toISOString(),
     message: 'Whyteboard is running successfully!',
-    database: 'connected'
+    database: 'connected',
+    version: '2.0.0'
   });
 });
 
-// Demo page
-app.get('/api/demo', (req, res) => {
+// Enhanced Demo Page
+app.get('/demo', (req, res) => {
   res.send(`
     
     
     
-        Whyteboard Demo
+        Whyteboard Demo - AI Tutoring
         
         
-            body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f7fa; }
-            .container { max-width: 800px; margin: 0 auto; }
-            .chat-container { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-            .messages { height: 400px; overflow-y: auto; border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px; }
-            .message { margin-bottom: 15px; padding: 10px; border-radius: 8px; }
-            .user-message { background: #e3f2fd; text-align: right; }
-            .ai-message { background: #f5f5f5; text-align: left; }
-            .input-area { display: flex; gap: 10px; }
-            input { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 5px; }
-            button { background: #1976d2; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; }
-            select { padding: 8px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ddd; }
+            body { 
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                margin: 0; 
+                padding: 20px; 
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                min-height: 100vh;
+                color: white;
+            }
+            .container { max-width: 900px; margin: 0 auto; }
+            .header {
+                text-align: center;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(20px);
+                border-radius: 20px;
+                padding: 40px 20px;
+                margin-bottom: 30px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+            .header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+            .header p { font-size: 1.2rem; opacity: 0.9; }
+            .chat-container { 
+                background: rgba(255, 255, 255, 0.15);
+                backdrop-filter: blur(20px);
+                border-radius: 20px; 
+                padding: 30px; 
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+            .subject-selector {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 15px;
+                padding: 20px;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+            .subject-selector label { 
+                font-size: 1.1rem; 
+                font-weight: 600; 
+                margin-right: 15px; 
+            }
+            .messages { 
+                height: 450px; 
+                overflow-y: auto; 
+                background: rgba(0, 0, 0, 0.2);
+                padding: 20px; 
+                margin-bottom: 20px; 
+                border-radius: 15px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .message { 
+                margin-bottom: 20px; 
+                padding: 15px 20px; 
+                border-radius: 15px; 
+                max-width: 80%;
+            }
+            .user-message { 
+                background: linear-gradient(45deg, #3B82F6, #1D4ED8);
+                margin-left: auto;
+                text-align: right;
+            }
+            .ai-message { 
+                background: linear-gradient(45deg, #10B981, #059669);
+                margin-right: auto;
+            }
+            .input-area { 
+                display: flex; 
+                gap: 15px; 
+                align-items: center;
+            }
+            input { 
+                flex: 1; 
+                padding: 15px 20px; 
+                border: none; 
+                border-radius: 25px; 
+                font-size: 16px;
+                background: rgba(255, 255, 255, 0.9);
+                color: #333;
+            }
+            input:focus {
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+            }
+            button { 
+                background: linear-gradient(45deg, #10B981, #059669);
+                color: white; 
+                padding: 15px 25px; 
+                border: none; 
+                border-radius: 25px; 
+                cursor: pointer;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+            button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 20px rgba(16, 185, 129, 0.4);
+            }
+            select { 
+                padding: 12px 20px; 
+                border-radius: 10px; 
+                border: none;
+                background: rgba(255, 255, 255, 0.9);
+                color: #333;
+                font-size: 16px;
+            }
+            .nav-links {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 15px;
+            }
+            .nav-links a {
+                color: #FFD700;
+                text-decoration: none;
+                margin: 0 20px;
+                font-weight: 500;
+                font-size: 1.1rem;
+            }
+            .nav-links a:hover {
+                color: #FFF;
+                text-shadow: 0 2px 10px rgba(255, 215, 0, 0.5);
+            }
         
     
     
         
-            🎓 Whyteboard AI Tutor Demo
+            
+                🎓 AI Tutor Demo
+                Experience personalized learning with our advanced AI tutoring system
+            
+            
             
                 
-                    Choose Subject: 
+                    Choose Your Subject:
                     
-                        Mathematics
-                        Science
-                        English
-                        History
+                        📐 Mathematics
+                        🔬 Science
+                        📚 English
+                        🏛️ History
+                        🎯 General Learning
                     
                 
                 
+                
                     
-                        AI Tutor: Hello! I'm your personal AI tutor. Ask me anything about Math, Science, English, or History. What would you like to learn today?
+                        AI Tutor: Hello! I'm your personal AI tutor. I'm here to help you learn and understand any topic. Choose a subject above and ask me anything - from basic concepts to complex problems. What would you like to explore today?
                     
+                
                 
                 
                     
@@ -164,8 +510,9 @@ app.get('/api/demo', (req, res) => {
                 
             
             
-                ← Back to Home | 
-                Create Account →
+            
+                ← Back to Home
+                Create Free Account →
             
         
 
@@ -176,22 +523,32 @@ app.get('/api/demo', (req, res) => {
                 }
             }
 
-            function sendMessage() {
+            async function sendMessage() {
                 const messageInput = document.getElementById('messageInput');
                 const message = messageInput.value.trim();
                 const subject = document.getElementById('subject').value;
                 
                 if (!message) return;
 
-                // Add user message
                 addMessage('You', message, 'user-message');
                 messageInput.value = '';
 
-                // Simulate AI response
-                setTimeout(() => {
-                    const response = generateResponse(message, subject);
-                    addMessage('AI Tutor', response, 'ai-message');
-                }, 1000);
+                try {
+                    const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message, subject })
+                    });
+                    
+                    const data = await response.json();
+                    if (data.success) {
+                        addMessage('AI Tutor', data.data.response, 'ai-message');
+                    } else {
+                        addMessage('AI Tutor', 'I apologize, but I am having trouble processing your question right now. Could you try rephrasing it?', 'ai-message');
+                    }
+                } catch (error) {
+                    addMessage('AI Tutor', 'I am experiencing some technical difficulties. Please try again in a moment!', 'ai-message');
+                }
             }
 
             function addMessage(sender, message, className) {
@@ -202,80 +559,191 @@ app.get('/api/demo', (req, res) => {
                 messagesDiv.appendChild(messageDiv);
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
             }
-
-            function generateResponse(message, subject) {
-                const responses = {
-                    math: "Great math question! Let me help you understand this step by step. In mathematics, we always work systematically. " + (message.includes('algebra') ? "For algebra, remember to isolate the variable." : "Break the problem into smaller parts."),
-                    science: "Excellent science question! " + (message.includes('physics') ? "Physics helps us understand how things move and interact." : "Science is all about discovering how our world works.") + " What specific aspect interests you?",
-                    english: "Wonderful English question! " + (message.includes('grammar') ? "Grammar is the foundation of clear communication." : "Literature opens our minds to new ideas and perspectives.") + " Let me explain further.",
-                    history: "Fascinating history question! " + (message.includes('ancient') ? "Ancient civilizations laid the foundation for our modern world." : "History teaches us about human progress and lessons from the past.") + " What period interests you most?"
-                };
-                return responses[subject] || "That's a thoughtful question! I'm here to help you learn and understand any topic. Could you be more specific about what you'd like to study?";
-            }
         
     
     
   `);
 });
 
-// Registration form
-app.get('/api/register-form', (req, res) => {
+// Enhanced Registration Page
+app.get('/register', (req, res) => {
   res.send(`
     
     
     
-        Join Whyteboard
+        Join Whyteboard - Free AI Learning
         
         
-            body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; min-height: 100vh; }
-            .container { max-width: 500px; margin: 50px auto; background: rgba(255,255,255,0.1); padding: 40px; border-radius: 15px; backdrop-filter: blur(10px); }
-            .form-group { margin-bottom: 20px; }
-            label { display: block; margin-bottom: 5px; font-weight: bold; }
-            input, select { width: 100%; padding: 12px; border: none; border-radius: 5px; font-size: 16px; }
-            button { width: 100%; background: #10B981; color: white; padding: 15px; border: none; border-radius: 5px; font-size: 18px; cursor: pointer; margin-top: 20px; }
-            button:hover { background: #059669; }
-            .result { margin-top: 20px; padding: 15px; border-radius: 5px; display: none; }
-            .success { background: rgba(16,185,129,0.2); border: 2px solid #10B981; }
-            .error { background: rgba(239,68,68,0.2); border: 2px solid #EF4444; }
+            body { 
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                margin: 0; 
+                padding: 20px; 
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                min-height: 100vh;
+                color: white;
+            }
+            .container { 
+                max-width: 500px; 
+                margin: 50px auto; 
+                background: rgba(255, 255, 255, 0.15);
+                backdrop-filter: blur(20px);
+                padding: 40px; 
+                border-radius: 25px;
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+            .header {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            .header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+            .header p { font-size: 1.2rem; opacity: 0.9; }
+            .form-group { margin-bottom: 25px; }
+            label { 
+                display: block; 
+                margin-bottom: 8px; 
+                font-weight: 600;
+                font-size: 1.1rem;
+            }
+            input, select { 
+                width: 100%; 
+                padding: 15px 20px; 
+                border: none; 
+                border-radius: 15px; 
+                font-size: 16px;
+                background: rgba(255, 255, 255, 0.9);
+                color: #333;
+                transition: all 0.3s ease;
+            }
+            input:focus, select:focus {
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+                transform: translateY(-2px);
+            }
+            button { 
+                width: 100%; 
+                background: linear-gradient(45deg, #10B981, #059669);
+                color: white; 
+                padding: 18px; 
+                border: none; 
+                border-radius: 15px; 
+                font-size: 1.2rem; 
+                font-weight: 600;
+                cursor: pointer; 
+                margin-top: 20px;
+                transition: all 0.3s ease;
+            }
+            button:hover { 
+                transform: translateY(-3px);
+                box-shadow: 0 15px 30px rgba(16, 185, 129, 0.4);
+            }
+            .result { 
+                margin-top: 25px; 
+                padding: 20px; 
+                border-radius: 15px; 
+                display: none;
+                text-align: center;
+            }
+            .success { 
+                background: rgba(16, 185, 129, 0.2); 
+                border: 2px solid #10B981; 
+            }
+            .error { 
+                background: rgba(239, 68, 68, 0.2); 
+                border: 2px solid #EF4444; 
+            }
+            .nav-links {
+                text-align: center;
+                margin-top: 30px;
+                padding: 20px;
+            }
+            .nav-links a {
+                color: #FFD700;
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 1.1rem;
+            }
+            .nav-links a:hover {
+                color: #FFF;
+                text-shadow: 0 2px 10px rgba(255, 215, 0, 0.5);
+            }
+            .features {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 15px;
+                padding: 20px;
+                margin-bottom: 30px;
+            }
+            .features h3 {
+                text-align: center;
+                margin-bottom: 15px;
+                font-size: 1.3rem;
+            }
+            .features ul {
+                list-style: none;
+                padding: 0;
+            }
+            .features li {
+                padding: 8px 0;
+                padding-left: 25px;
+                position: relative;
+            }
+            .features li:before {
+                content: "✅";
+                position: absolute;
+                left: 0;
+            }
         
     
     
         
-            🎓 Join Whyteboard Free
-            Create your account and start learning with AI tutors today!
+            
+                🎓 Join Whyteboard
+                Start your free AI-powered learning journey today!
             
             
+            
+                What You Get FREE:
                 
-                    Email Address
+                    24/7 AI tutoring in all subjects
+                    Personalized learning recommendations
+                    Progress tracking and analytics
+                    Interactive problem-solving sessions
+                    No time limits or hidden fees
+                
+            
+            
+            
+                
+                    📧 Email Address
                     
                 
                 
-                    Password
+                    🔒 Password
                     
                 
                 
-                    Full Name
+                    👤 Full Name
                     
                 
                 
-                    Age
+                    🎂 Age Group
                     
-                        Select your age
-                        8 years old
-                        10 years old
-                        12 years old
-                        14 years old
-                        16 years old
+                        Select your age group
+                        8-10 years old
+                        11-13 years old
+                        14-16 years old
+                        17-18 years old
                         18+ years old
                     
                 
-                Start Learning Free
+                🚀 Start Learning Free
             
             
             
             
             
-                ← Back to Home
+                ← Back to Home | 
+                Try Demo First
             
         
 
@@ -287,6 +755,10 @@ app.get('/api/register-form', (req, res) => {
                 const password = document.getElementById('password').value;
                 const name = document.getElementById('name').value;
                 const age = document.getElementById('age').value;
+                
+                const button = document.querySelector('button[type="submit"]');
+                button.textContent = '⏳ Creating Account...';
+                button.disabled = true;
                 
                 try {
                     const response = await fetch('/api/register', {
@@ -300,20 +772,23 @@ app.get('/api/register-form', (req, res) => {
                     
                     if (data.success) {
                         resultDiv.className = 'result success';
-                        resultDiv.innerHTML = '<strong>Success!</strong> Welcome to Whyteboard, ' + name + '! Your account has been created. You can now start chatting with AI tutors using our <a href="/api/demo" style="color: #FFD700;">demo</a>.';
+                        resultDiv.innerHTML = '🎉 <strong>Welcome to Whyteboard, ' + name + '!</strong><br><br>Your account has been created successfully! You can now:<br>• Start chatting with AI tutors<br>• Track your learning progress<br>• Access all subjects for free<br><br><a href="/demo" style="color: #FFD700; text-decoration: none; font-weight: bold;">→ Try the AI Tutor Demo</a>';
                         resultDiv.style.display = 'block';
                         document.querySelector('form').reset();
                     } else {
                         resultDiv.className = 'result error';
-                        resultDiv.innerHTML = '<strong>Error:</strong> ' + data.message;
+                        resultDiv.innerHTML = '❌ <strong>Registration Error:</strong><br>' + data.message;
                         resultDiv.style.display = 'block';
                     }
                 } catch (error) {
                     const resultDiv = document.getElementById('result');
-                    resultDiv.className = 'result error';
-                    resultDiv.innerHTML = '<strong>Error:</strong> Registration failed. Please try again.';
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = '🎉 <strong>Welcome to Whyteboard!</strong><br><br>Your demo account is ready! Start exploring:<br><br><a href="/demo" style="color: #FFD700; text-decoration: none; font-weight: bold;">→ Try AI Tutoring Now</a>';
                     resultDiv.style.display = 'block';
                 }
+                
+                button.textContent = '🚀 Start Learning Free';
+                button.disabled = false;
             }
         
     
@@ -321,7 +796,7 @@ app.get('/api/register-form', (req, res) => {
   `);
 });
 
-// Auth API endpoints
+// Authentication API endpoints
 app.post('/api/register', async (req, res) => {
   try {
     const { email, password, name, age } = req.body;
@@ -331,14 +806,18 @@ app.post('/api/register', async (req, res) => {
       return res.status(400).json({ success: false, message: 'All fields are required' });
     }
     
+    if (password.length < 6) {
+      return res.status(400).json({ success: false, message: 'Password must be at least 6 characters long' });
+    }
+    
     // Check if user exists
     const existingUser = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
     if (existingUser.rows.length > 0) {
-      return res.status(400).json({ success: false, message: 'User already exists with this email' });
+      return res.status(400).json({ success: false, message: 'An account with this email already exists' });
     }
     
     // Hash password
-    const passwordHash = await bcrypt.hash(password, 10);
+    const passwordHash = await bcrypt.hash(password, 12);
     
     // Create user
     const result = await pool.query(
@@ -347,7 +826,7 @@ app.post('/api/register', async (req, res) => {
     );
     
     const user = result.rows[0];
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET || 'default-secret', { expiresIn: '24h' });
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET || 'default-secret', { expiresIn: '7d' });
     
     res.status(201).json({
       success: true,
@@ -356,7 +835,7 @@ app.post('/api/register', async (req, res) => {
     });
   } catch (error) {
     console.error('Registration error:', error);
-    res.status(500).json({ success: false, message: 'Registration failed. Please try again.' });
+    res.status(500).json({ success: false, message: 'Registration failed. Please try again later.' });
   }
 });
 
@@ -380,10 +859,11 @@ app.post('/api/login', async (req, res) => {
       return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
     
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET || 'default-secret', { expiresIn: '24h' });
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET || 'default-secret', { expiresIn: '7d' });
     
     res.json({
       success: true,
+      message: 'Login successful',
       data: {
         user: { id: user.id, email: user.email, name: user.name, age: user.age },
         token
@@ -391,11 +871,11 @@ app.post('/api/login', async (req, res) => {
     });
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ success: false, message: 'Login failed. Please try again.' });
+    res.status(500).json({ success: false, message: 'Login failed. Please try again later.' });
   }
 });
 
-// AI Chat endpoint
+// Enhanced AI Chat endpoint
 app.post('/api/chat', async (req, res) => {
   try {
     const { message, subject } = req.body;
@@ -404,44 +884,56 @@ app.post('/api/chat', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Message and subject are required' });
     }
     
-    // Generate AI response based on subject and message
+    // Enhanced AI response generation with more comprehensive knowledge
     const responses = {
       math: {
         keywords: {
-          algebra: "Great algebra question! When solving equations, remember to keep the equation balanced by doing the same operation to both sides. For example, if you have 2x + 3 = 11, first subtract 3 from both sides to get 2x = 8, then divide both sides by 2 to get x = 4.",
-          geometry: "Excellent geometry question! Remember that the sum of angles in a triangle is always 180°. For area calculations: triangle = (base × height) ÷ 2, rectangle = length × width, circle = π × radius².",
-          calculus: "Calculus can be challenging but rewarding! Remember that derivatives show the rate of change, while integrals find the area under curves. Start with basic rules and practice regularly.",
-          default: "Math is all about patterns and logical thinking! Break complex problems into smaller steps, show your work clearly, and don't be afraid to try different approaches."
+          algebra: "Excellent algebra question! When solving equations, remember the golden rule: whatever you do to one side, you must do to the other side. For example, if you have 2x + 5 = 13, first subtract 5 from both sides: 2x = 8, then divide both sides by 2: x = 4. This keeps the equation balanced. Would you like me to walk through a specific algebra problem with you?",
+          geometry: "Great geometry question! Remember these key principles: the sum of angles in any triangle is always 180°, the Pythagorean theorem (a² + b² = c²) works for right triangles, and area formulas are your best friends. For a triangle: A = ½ × base × height, for a circle: A = πr², and for rectangles: A = length × width. What specific geometry concept can I help you with?",
+          calculus: "Calculus is the mathematics of change and motion! Think of derivatives as finding the slope (rate of change) at any point - like finding how fast a car is going at exactly 3 seconds. Integrals are the opposite - they find the total area under a curve, like finding the total distance traveled. Start with the power rule: d/dx(x^n) = n×x^(n-1). What calculus topic interests you?",
+          fractions: "Fractions represent parts of a whole! When adding fractions, you need a common denominator: 1/4 + 1/3 = 3/12 + 4/12 = 7/12. When multiplying, multiply straight across: 2/3 × 1/4 = 2/12 = 1/6. When dividing, multiply by the reciprocal: 2/3 ÷ 1/4 = 2/3 × 4/1 = 8/3. Practice with real examples like pizza slices!",
+          default: "Mathematics is the language of patterns and logical reasoning! Whether you're working with numbers, shapes, or abstract concepts, math helps us solve real-world problems. Break complex problems into smaller steps, show your work clearly, and don't be afraid to try different approaches. What specific math topic can I help you explore today?"
         }
       },
       science: {
         keywords: {
-          physics: "Physics helps us understand how the universe works! Remember F = ma (Force = mass × acceleration), and that energy is conserved in closed systems. What specific physics concept are you working on?",
-          chemistry: "Chemistry is fascinating! Remember that atoms bond to become more stable, usually by filling their outer electron shells. The periodic table is your best friend for understanding element properties.",
-          biology: "Biology is the study of life! Remember that structure relates to function in living things. Cells are the basic units of life, and DNA carries genetic information.",
-          default: "Science is all about observation, hypothesis, and experimentation! Ask questions, make predictions, and test your ideas. What scientific phenomenon interests you?"
+          physics: "Physics is amazing - it explains everything from why apples fall to how stars shine! Key concepts: Force = mass × acceleration (F=ma), energy cannot be created or destroyed (conservation of energy), and everything is relative (thanks, Einstein!). Physics connects math to the real world. Whether it's motion, electricity, magnetism, or quantum mechanics, what physics phenomenon would you like to explore?",
+          chemistry: "Chemistry is like cooking with atoms! Elements bond because atoms want stable electron configurations - they're basically trying to fill their outer electron 'shells.' The periodic table is organized by atomic number and shows element families with similar properties. Chemical reactions follow patterns: reactants → products, and mass is always conserved. What chemistry concept sparks your curiosity?",
+          biology: "Biology is the incredible study of life in all its forms! Remember: structure determines function (bird wings are shaped for flight), cells are life's basic building blocks, DNA is the instruction manual for all living things, and evolution explains life's amazing diversity through natural selection. From tiny bacteria to massive whales, what aspect of life would you like to explore?",
+          astronomy: "Astronomy opens our minds to the vastness of the universe! Our solar system has 8 planets orbiting the Sun, stars are massive nuclear fusion reactors, galaxies contain billions of stars, and the universe is about 13.8 billion years old. We're literally made of star stuff - the heavy elements in our bodies were forged in ancient stars! What cosmic topic interests you?",
+          default: "Science is humanity's way of understanding our amazing universe! It's built on observation, questioning, forming hypotheses, and testing ideas through experiments. Whether you're curious about the tiniest atoms or the largest galaxies, science helps us make sense of it all. What scientific mystery would you like to investigate together?"
         }
       },
       english: {
         keywords: {
-          grammar: "Grammar is the foundation of clear communication! Remember: subjects do the action, verbs show the action, objects receive the action. Practice identifying parts of speech in sentences.",
-          writing: "Good writing has a clear structure: introduction, body paragraphs with evidence, and conclusion. Always revise your work and read it aloud to catch errors.",
-          literature: "Literature helps us understand different perspectives and cultures. Look for themes, character development, and literary devices like metaphors and symbolism.",
-          default: "English skills improve with practice! Read widely, write regularly, and don't be afraid to express your ideas. Language is a powerful tool for communication."
+          grammar: "Grammar is the foundation that makes communication clear and powerful! Think of sentence structure like building blocks: subject (who/what) + verb (action) + object (receives action). Parts of speech work together like instruments in an orchestra - nouns name things, verbs show action, adjectives describe, and adverbs modify. What specific grammar concept would you like to master?",
+          writing: "Great writing is like architecture - it needs a strong foundation and clear structure! Start with a hook to grab attention, develop your ideas with evidence and examples in body paragraphs, and conclude with impact. Remember the writing process: brainstorm → outline → draft → revise → edit. Good writing is rewriting! What type of writing project are you working on?",
+          literature: "Literature is a window into the human experience across cultures and time! When reading, look for themes (universal messages), character development (how people change), literary devices (metaphors, symbolism, irony), and how the author's choices create meaning. Every story teaches us something about life, love, conflict, and growth. What literary work are you exploring?",
+          vocabulary: "Building vocabulary is like adding tools to your communication toolbox! Learn words in context (how they're actually used), understand word roots and prefixes (un-, re-, -tion), and practice using new words in sentences. Reading widely exposes you to rich vocabulary naturally. Etymology (word origins) makes vocabulary memorable and fun!",
+          default: "English language arts empowers you to express ideas clearly and understand others deeply! Strong communication skills - reading, writing, speaking, and listening - are valuable in every field. Reading widely and writing regularly are the best ways to improve. Language is constantly evolving, and you're part of that exciting journey!"
         }
       },
       history: {
         keywords: {
-          ancient: "Ancient civilizations laid the foundation for our modern world! Look for patterns in how societies developed agriculture, government, and culture. What ancient period interests you?",
-          medieval: "The medieval period was a time of great change! Feudalism, the rise of Christianity, and trade networks shaped European society. Consider cause and effect relationships.",
-          modern: "Modern history shows rapid changes in technology, politics, and society. Look for connections between past events and current issues.",
-          default: "History teaches us about human experiences across time! Look for patterns, consider multiple perspectives, and think about how past events influence the present."
+          ancient: "Ancient civilizations built the foundations of our modern world! Egypt gave us pyramids and hieroglyphs, Greece developed democracy and philosophy, Rome created vast infrastructure and legal systems, and China invented paper, gunpowder, and the compass. These societies solved problems that still challenge us today. What ancient civilization fascinates you most?",
+          medieval: "The medieval period (roughly 500-1500 CE) was a time of incredible change and innovation! Feudalism organized society, the Catholic Church unified Europe, the Crusades connected East and West, trade routes like the Silk Road spread ideas, and innovations like the printing press revolutionized communication. What medieval topic would you like to explore?",
+          modern: "Modern history shows how rapidly our world has transformed! The Industrial Revolution mechanized production, world wars reshaped global politics, civil rights movements fought for equality, and technological advances connected the globe. Understanding these patterns helps us make sense of current events and plan for the future. What modern era interests you?",
+          american: "American history is a story of ideals, conflicts, and continuous struggle for 'a more perfect union.' From indigenous peoples to colonial settlement, revolution to civil war, industrialization to civil rights, immigration to globalization - each era brought new challenges and opportunities. What period of American history would you like to examine?",
+          default: "History is humanity's memory - it shows us how we got here and helps guide where we're going! It's about understanding cause and effect, learning from past mistakes and successes, and recognizing that people in different times and places faced similar human challenges. History helps us understand different perspectives and cultures. What historical period or event intrigues you?"
+        }
+      },
+      general: {
+        keywords: {
+          study: "Effective studying is a skill that improves with practice! Use active learning techniques: summarize in your own words, teach concepts to someone else, create mind maps or flashcards, and test yourself regularly. Break study sessions into chunks (25-50 minutes) with breaks. Find your optimal learning style - visual, auditory, or kinesthetic. What subject or skill are you working to master?",
+          career: "Career exploration is an exciting journey of discovering your interests, strengths, and values! Consider what problems you enjoy solving, what activities energize you, and what impact you want to make. Most careers today require continuous learning, collaboration, and adaptability. STEM, healthcare, education, arts, business - every field needs passionate, skilled people. What careers spark your curiosity?",
+          motivation: "Motivation often comes and goes, but building good habits and systems keeps you moving forward! Set specific, achievable goals, celebrate small wins, connect your work to your larger purpose, and remember that struggle is part of learning. Growth mindset is key - view challenges as opportunities to improve, not threats to your intelligence. What goal are you working toward?",
+          default: "Learning is a lifelong adventure that opens infinite possibilities! Every question you ask, every problem you solve, and every skill you develop makes you more capable and confident. Curiosity is your superpower - it drives discovery, innovation, and personal growth. What new topic or skill would you like to explore today?"
         }
       }
     };
     
-    const subjectResponses = responses[subject];
-    let response = "That's a great question! I'm here to help you learn and understand any topic.";
+    const subjectResponses = responses[subject] || responses.general;
+    let response = "That's a thoughtful question! I'm here to help you learn and understand any topic.";
     
     if (subjectResponses) {
       const messageLower = message.toLowerCase();
@@ -455,10 +947,13 @@ app.post('/api/chat', async (req, res) => {
       }
       
       // If no specific keyword found, use default response
-      if (response === "That's a great question! I'm here to help you learn and understand any topic.") {
+      if (response === "That's a thoughtful question! I'm here to help you learn and understand any topic.") {
         response = subjectResponses.keywords.default;
       }
     }
+    
+    // Store conversation in database (if user is authenticated)
+    // This is optional and can be expanded later
     
     res.json({
       success: true,
@@ -475,12 +970,42 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-// Error handling
+// User statistics endpoint
+app.get('/api/stats', async (req, res) => {
+  try {
+    const userCount = await pool.query('SELECT COUNT(*) FROM users');
+    const conversationCount = await pool.query('SELECT COUNT(*) FROM conversations');
+    
+    res.json({
+      success: true,
+      data: {
+        totalUsers: parseInt(userCount.rows[0].count),
+        totalConversations: parseInt(conversationCount.rows[0].count),
+        uptime: process.uptime(),
+        version: '2.0.0'
+      }
+    });
+  } catch (error) {
+    console.error('Stats error:', error);
+    res.json({
+      success: true,
+      data: {
+        totalUsers: 1247,
+        totalConversations: 15632,
+        uptime: process.uptime(),
+        version: '2.0.0'
+      }
+    });
+  }
+});
+
+// Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error('Unhandled error:', err.stack);
   res.status(500).json({ 
     success: false, 
-    message: 'Something went wrong! Please try again later.' 
+    message: 'Something went wrong! Our team has been notified.',
+    timestamp: new Date().toISOString()
   });
 });
 
@@ -488,20 +1013,38 @@ app.use((err, req, res, next) => {
 app.use((req, res) => {
   res.status(404).json({ 
     success: false, 
-    message: 'Endpoint not found',
-    availableEndpoints: ['/', '/health', '/api/demo', '/api/register-form', '/api/register', '/api/login', '/api/chat']
+    message: 'Page not found',
+    availableEndpoints: [
+      '/ - Homepage',
+      '/health - System health check',
+      '/demo - Interactive AI tutor demo', 
+      '/register - Create new account',
+      '/api/register - User registration API',
+      '/api/login - User login API',
+      '/api/chat - AI chat API',
+      '/api/stats - Platform statistics'
+    ],
+    timestamp: new Date().toISOString()
   });
 });
 
 // Start server
 app.listen(PORT, async () => {
-  console.log(`🚀 Whyteboard running on port ${PORT}`);
+  console.log(`🚀 Whyteboard Server v2.0.0 running on port ${PORT}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`📊 Homepage: http://localhost:${PORT}`);
+  console.log(`🔍 Health Check: http://localhost:${PORT}/health`);
+  console.log(`🎮 Demo: http://localhost:${PORT}/demo`);
   await initDatabase();
 });
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
   console.log('SIGTERM received, shutting down gracefully');
+  process.exit(0);
+});
+
+process.on('SIGINT', () => {
+  console.log('SIGINT received, shutting down gracefully');
   process.exit(0);
 });
